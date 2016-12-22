@@ -111,12 +111,12 @@ router.post('/removecategory', (req, res) => {
     if (err) throw err;
 
     Item.find((error, items) => {
-      if (err) throw err;
+      if (error) throw err;
 
       items.forEach((item) => {
         if (item.category === name) item.category = '';
         item.save((saveError) => {
-          if (saveError) if (err) throw err;
+          if (saveError) throw err;
         });
       });
     });
