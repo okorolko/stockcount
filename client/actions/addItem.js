@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { fetchItem } from './fetchItem';
+import { fetchItemSuccess } from './fetchItem';
 
-export const addItemSuccess = () => {
+export const addItemSuccess = (payload) => {
   return {
     type: 'ADD_ITEM_SUCCESS',
+    payload,
   };
 };
 export const addItemError = () => {
@@ -20,9 +21,9 @@ export const addItemPending = () => {
 export const addItem = (item) => {
   return function(dispatch) {
     dispatch(addItemPending());
+
     axios.post('/api/additem', item)
-      .then(() => dispatch(addItemSuccess()))
-      .then(dispatch(fetchItem()))
+      .then(response => dispatch(fetchItemSuccess(response.data)))
       .catch(err => dispatch(addItemError(err)));
   };
 };

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { fetchCategory } from './fetchCategory';
+import { fetchCategorySuccess } from './fetchCategory';
 
 export const deleteCategorySuccess = (categories) => {
   return {
@@ -22,9 +22,9 @@ export const deleteCategory = (category) => {
   const { _id, name } = category;
   return function(dispatch) {
     dispatch(deleteCategoryPending());
+
     axios.post('/api/removecategory', { id: _id, name })
-      .then(response => dispatch(deleteCategorySuccess(response.data)))
-      .then(dispatch(fetchCategory()))
+      .then(response => dispatch(fetchCategorySuccess(response.data)))
       .catch(err => dispatch(deleteCategoryError(err)));
   };
 };

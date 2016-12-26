@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { fetchItem } from './fetchItem';
+import { fetchItemSuccess } from './fetchItem';
 
 export const editItemSuccess = () => {
   return {
@@ -19,9 +19,12 @@ export const editItemPending = () => {
 export const editItem = (item) => {
   return function(dispatch) {
     dispatch(editItemPending());
+
+    //delete DOM elem from object to send post request
+    delete item.anchorEl;
+
     axios.post('/api/edititem', item)
-      .then(() => dispatch(editItemSuccess()))
-      .then(dispatch(fetchItem()))
+      .then(response => dispatch(fetchItemSuccess(response.data)))
       .catch(err => dispatch(editItemError(err)));
   };
 };

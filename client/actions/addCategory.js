@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { fetchCategory } from './fetchCategory';
+import { fetchCategorySuccess } from './fetchCategory';
 
 export const addCategorySuccess = () => {
   return {
@@ -20,9 +20,9 @@ export const addCategoryPending = () => {
 export const addCategory = (name) => {
   return function(dispatch) {
     dispatch(addCategoryPending());
-    axios.post('/api/addcategory', {name: name})
-      .then(() => dispatch(addCategorySuccess()))
-      .then(dispatch(fetchCategory()))
+
+    axios.post('/api/addcategory', { name })
+      .then(response => dispatch(fetchCategorySuccess(response.data)))
       .catch(err => dispatch(addCategoryError(err)));
   };
 };
