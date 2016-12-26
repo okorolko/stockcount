@@ -30,7 +30,10 @@ router.post('/additem', (req, res) => {
 
   item.save((err) => {
     if (err) throw err;
-    res.status(200).send('item added');
+    Item.find((error, data) => {
+      if (error) throw error;
+      res.status(200).send(data);
+    });
   });
 });
 
@@ -46,7 +49,10 @@ router.post('/edititem', (req, res) => {
     },
     (err) => {
       if (err) throw err;
-      res.status(200).send('item edited');
+      Item.find((error, data) => {
+        if (error) throw error;
+        res.status(200).send(data);
+      });
     });
 });
 
@@ -57,7 +63,10 @@ router.post('/removeitem', (req, res) => {
   const id = req.body["_id"]
   Item.findByIdAndRemove(id, (err) => {
     if (err) throw err;
-    res.status(200).send('item deleted');
+    Item.find((error, data) => {
+      if (error) throw error;
+      res.status(200).send(data);
+    });
   });
 });
 
@@ -79,7 +88,10 @@ router.post('/addcategory', (req, res) => {
 
   category.save((err) => {
     if (err) throw err;
-    res.status(200).send('category added');
+    Category.find((error, data) => {
+      if (error) throw error;
+      res.status(200).send(data);
+    });
   });
 });
 
@@ -105,10 +117,9 @@ router.post('/editcategory', (req, res) => {
  */
 router.post('/removecategory', (req, res) => {
   const { id, name } = req.body;
-  console.log(id, name)
+
   Category.findByIdAndRemove(id, (err) => {
     if (err) throw err;
-
     Item.find((error, items) => {
       if (error) throw err;
 
@@ -120,7 +131,10 @@ router.post('/removecategory', (req, res) => {
       });
     });
 
-    res.status(200).send('category deleted');
+    Category.find((dbError, data) => {
+      if (dbError) throw dbError;
+      res.status(200).send(data);
+    });
   });
 });
 
