@@ -8,6 +8,8 @@ import Dialog from 'material-ui/Dialog';
 import IconButton from 'material-ui/IconButton';
 import Clear from 'material-ui/svg-icons/content/clear';
 import { editItem } from '../actions/editItem';
+import validate from './validate';
+
 
 class EditItemButton extends React.Component {
   constructor(props) {
@@ -18,6 +20,7 @@ class EditItemButton extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeText = this.handleChangeText.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
+    this.validate = validate.bind(this);
   }
   componentDidMount () {
     const { item } = this.props;
@@ -38,8 +41,10 @@ class EditItemButton extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.dispatch(editItem(this.state));
-    this.setState({ open: false });
+    if (this.validate()) {
+      this.props.dispatch(editItem(this.state));
+      this.setState({ open: false });
+    }
   }
 
   handleChangeText(e) {
@@ -55,13 +60,13 @@ class EditItemButton extends React.Component {
   render() {
     return (
       <div
-        style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', alignItems: 'flex-end'}}
+        style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', alignItems: 'flex-end' }}
       >
         <RaisedButton
           onTouchTap={this.handleTouchTap}
           label="Изменить"
           primary={true}
-          style={{marginLeft: '20px'}}
+          style={{ marginLeft: '20px' }}
         />
         <Dialog
           modal={true}
@@ -98,20 +103,23 @@ class EditItemButton extends React.Component {
                 floatingLabelText="Название"
                 onChange={this.handleChangeText}
                 value={this.state.name}
+                errorText={this.state.validateName || ''}
               />
               <TextField
                 id="buyPrice"
                 floatingLabelText="Закупочная стоимость"
                 onChange={this.handleChangeText}
                 value={this.state.buyPrice}
+                errorText={this.state.validateBuyPrice || ''}
               />
               <TextField
                 id="sellPrice"
                 floatingLabelText="Розничная цена"
                 onChange={this.handleChangeText}
                 value={this.state.sellPrice}
+                errorText={this.state.validateSellPrice || ''}
               />
-              <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', paddingTop: '20px' }} >
+              <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', paddingTop: '20px' }}>
                 <RaisedButton onClick={this.handleSubmit} type="submit" label="Сохранить" primary={true} />
               </div>
             </form>
@@ -124,6 +132,8 @@ class EditItemButton extends React.Component {
 
 EditItemButton.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.object),
+  dispatch: PropTypes.func.isRequired,
+  item: PropTypes.object,
 };
 
 const MapStateToProps = (state) => {

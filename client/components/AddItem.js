@@ -8,6 +8,8 @@ import Dialog from 'material-ui/Dialog';
 import Clear from 'material-ui/svg-icons/content/clear';
 import IconButton from 'material-ui/IconButton';
 import { addItem } from '../actions/addItem';
+import validate from './validate';
+
 
 class AddItem extends React.Component {
   constructor(props) {
@@ -18,6 +20,7 @@ class AddItem extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeText = this.handleChangeText.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
+    this.validate = validate.bind(this);
   }
   handleTouchTap(event) {
     event.preventDefault();
@@ -33,14 +36,16 @@ class AddItem extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const item = {
-      category: this.state.category,
-      name: this.state.name,
-      buyPrice: this.state.buyPrice,
-      sellPrice: this.state.sellPrice,
-    };
-    this.props.dispatch(addItem(item));
-    this.setState({ open: false });
+    if (this.validate()) {
+      const item = {
+        category: this.state.category,
+        name: this.state.name,
+        buyPrice: this.state.buyPrice,
+        sellPrice: this.state.sellPrice,
+      };
+      this.props.dispatch(addItem(item));
+      this.setState({ open: false });
+    }
   }
 
   handleChangeText(e) {
@@ -94,17 +99,20 @@ class AddItem extends React.Component {
                 id="name"
                 floatingLabelText="Название"
                 onChange={this.handleChangeText}
+                errorText={this.state.validateName || ''}
               />
               <TextField
                 id="buyPrice"
                 floatingLabelText="Закупочная стоимость"
                 onChange={this.handleChangeText}
+                errorText={this.state.validateBuyPrice || ''}
               />
 
               <TextField
                 id="sellPrice"
                 floatingLabelText="Розничная цена"
                 onChange={this.handleChangeText}
+                errorText={this.state.validateSellPrice || ''}
               />
               <div style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', paddingTop: '20px'}} >
                 <RaisedButton onClick={this.handleSubmit} type="submit" label="Сохранить" primary={true} />
