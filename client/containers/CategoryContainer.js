@@ -23,7 +23,9 @@ class CategoryContainer extends React.Component {
   closeDeleteModal() {
     this.setState({ open: false });
   }
-  handleDelete(category) {
+  handleDelete(e, category) {
+    e.preventDefault();
+    this.closeDeleteModal();
     this.props.dispatch(deleteCategory(category));
   }
   handleCategorySelect(category) {
