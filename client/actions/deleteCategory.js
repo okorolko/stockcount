@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { fetchCategorySuccess } from './fetchCategory';
+import { fetchItemSuccess } from './fetchItem';
 
 export const deleteCategorySuccess = (categories) => {
   return {
@@ -18,13 +19,27 @@ export const deleteCategoryPending = () => {
   };
 };
 
+function postDelCat(_id, name) {
+  return axios.post('/api/removecategory', { id: _id, name });
+}
+
+function getItemsList() {
+  return axios.get('/api/allitems');
+}
+
 export const deleteCategory = (category) => {
   const { _id, name } = category;
   return function(dispatch) {
     dispatch(deleteCategoryPending());
 
-    axios.post('/api/removecategory', { id: _id, name })
-      .then(response => dispatch(fetchCategorySuccess(response.data)))
+    axios.all([postDelCat(_id, name), getItemsList()])
+      .then(axios.spread((categories, items) => {
+        dispatch(fetchCategorySuccess(categories.data));
+        dispatch(fetchItemSuccess(items.data));
+      }))
       .catch(err => dispatch(deleteCategoryError(err)));
   };
 };
+
+
+
