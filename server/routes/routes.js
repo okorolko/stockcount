@@ -9,9 +9,9 @@ const router = express.Router();
 /**
  * Load all items
  */
-router.get('/allitems', (req, res) => {
+router.get('/allitems', (req, res, next) => {
   Item.find((err, data) => {
-    if (err) throw err;
+    if (err) return next(err);
     res.status(200).send(data);
   });
 });
@@ -19,7 +19,7 @@ router.get('/allitems', (req, res) => {
 /**
  * Add new item
  */
-router.post('/additem', (req, res) => {
+router.post('/additem', (req, res, next) => {
   const { name, buyPrice, sellPrice, category } = req.body;
   const item = new Item({
     name,
@@ -29,9 +29,9 @@ router.post('/additem', (req, res) => {
   });
 
   item.save((err) => {
-    if (err) throw err;
+    if (err) return next(err);
     Item.find((error, data) => {
-      if (error) throw error;
+      if (error) return next(error);
       res.status(200).send(data);
     });
   });
@@ -40,7 +40,7 @@ router.post('/additem', (req, res) => {
 /**
  * Edit item
  */
-router.post('/edititem', (req, res) => {
+router.post('/edititem', (req, res, next) => {
   const { _id, name, buyPrice, sellPrice, category } = req.body;
   Item.update(
     { _id },
@@ -48,9 +48,9 @@ router.post('/edititem', (req, res) => {
       $set: { name, buyPrice, sellPrice, category },
     },
     (err) => {
-      if (err) throw err;
+      if (err) return next(err);
       Item.find((error, data) => {
-        if (error) throw error;
+        if (error) return next(error);
         res.status(200).send(data);
       });
     });
@@ -59,12 +59,12 @@ router.post('/edititem', (req, res) => {
 /**
  * Delete item
  */
-router.post('/removeitem', (req, res) => {
+router.post('/removeitem', (req, res, next) => {
   const id = req.body["_id"]
   Item.findByIdAndRemove(id, (err) => {
-    if (err) throw err;
+    if (err) return next(err);
     Item.find((error, data) => {
-      if (error) throw error;
+      if (error) return next(error);
       res.status(200).send(data);
     });
   });
@@ -73,9 +73,9 @@ router.post('/removeitem', (req, res) => {
 /**
  * Load all categories
  */
-router.get('/allcategories', (req, res) => {
+router.get('/allcategories', (req, res, next) => {
   Category.find((err, data) => {
-    if (err) throw err;
+    if (err) return next(err);
     res.status(200).send(data);
   });
 });
@@ -83,13 +83,13 @@ router.get('/allcategories', (req, res) => {
 /**
  * Add new category
  */
-router.post('/addcategory', (req, res) => {
+router.post('/addcategory', (req, res, next) => {
   const category = new Category(req.body);
 
   category.save((err) => {
-    if (err) throw err;
+    if (err) return next(err);
     Category.find((error, data) => {
-      if (error) throw error;
+      if (error) return next(error);
       res.status(200).send(data);
     });
   });
@@ -98,7 +98,7 @@ router.post('/addcategory', (req, res) => {
 /**
  * Edit category
  */
-router.post('/editcategory', (req, res) => {
+router.post('/editcategory', (req, res, next) => {
   const { id, name } = req.body;
 
   Category.update(
@@ -107,7 +107,7 @@ router.post('/editcategory', (req, res) => {
       $set: { name },
     },
     (err) => {
-      if (err) throw err;
+      if (err) return next(err);
       res.status(200).send('category updated');
     });
 });
@@ -115,24 +115,24 @@ router.post('/editcategory', (req, res) => {
 /**
  * Delete category
  */
-router.post('/removecategory', (req, res) => {
+router.post('/removecategory', (req, res, next) => {
   const { id, name } = req.body;
 
   Category.findByIdAndRemove(id, (err) => {
-    if (err) throw err;
+    if (err) return next(err);
     Item.find((error, items) => {
-      if (error) throw err;
+      if (error) return next(error);
 
       items.forEach((item) => {
         if (item.category === name) item.category = '';
         item.save((saveError) => {
-          if (saveError) throw err;
+          if (saveError) return next(saveError);
         });
       });
     });
 
     Category.find((dbError, data) => {
-      if (dbError) throw dbError;
+      if (dbError) return next(dbError);
       res.status(200).send(data);
     });
   });
