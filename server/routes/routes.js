@@ -21,7 +21,6 @@ router.get('/allitems', (req, res) => {
  */
 router.post('/additem', (req, res) => {
   const { name, buyPrice, sellPrice, category } = req.body;
-
   const item = new Item({
     name,
     buyPrice,
@@ -39,10 +38,9 @@ router.post('/additem', (req, res) => {
  * Edit item
  */
 router.post('/edititem', (req, res) => {
-  const { id, name, buyPrice, sellPrice, category } = req.body;
-
+  const { _id, name, buyPrice, sellPrice, category } = req.body;
   Item.update(
-    { _id: id },
+    { _id },
     {
       $set: { name, buyPrice, sellPrice, category },
     },
@@ -56,7 +54,8 @@ router.post('/edititem', (req, res) => {
  * Delete item
  */
 router.post('/removeitem', (req, res) => {
-  Item.findByIdAndRemove(req.body.id, (err) => {
+  const id = req.body["_id"]
+  Item.findByIdAndRemove(id, (err) => {
     if (err) throw err;
     res.status(200).send('item deleted');
   });
@@ -106,7 +105,7 @@ router.post('/editcategory', (req, res) => {
  */
 router.post('/removecategory', (req, res) => {
   const { id, name } = req.body;
-
+  console.log(id, name)
   Category.findByIdAndRemove(id, (err) => {
     if (err) throw err;
 
