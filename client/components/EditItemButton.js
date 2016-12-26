@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -68,16 +68,16 @@ class EditItemButton extends React.Component {
           open={this.state.open}
           contentStyle={{ width: '35%' }}
         >
-        <IconButton
-          style={{ position: 'absolute', top: '1vh', right: '1vh' }}
-          tooltip="Закрыть"
-          onClick={this.handleRequestClose}
-        >
-          <Clear />
-        </IconButton>
-        <div style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', paddingTop: '25px'}}>
-          <form onSubmit={this.handleSubmit} style={{width: '80%'}}>
-            <div>
+          <IconButton
+            style={{ position: 'absolute', top: '1vh', right: '1vh' }}
+            tooltip="Закрыть"
+            onClick={this.handleRequestClose}
+          >
+            <Clear />
+          </IconButton>
+          <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', paddingTop: '25px' }}>
+            <span style={{ fontSize: '20px' }}>Изменить категорию</span>
+            <form onSubmit={this.handleSubmit} style={{ display: 'flex', flexFlow: 'column', alignItems: 'center' }}>
               <SelectField
                 floatingLabelText="Категория"
                 hintText="Категория"
@@ -111,17 +111,20 @@ class EditItemButton extends React.Component {
                 onChange={this.handleChangeText}
                 value={this.state.sellPrice}
               />
-              <div style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', paddingTop: '20px'}} >
+              <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', paddingTop: '20px' }} >
                 <RaisedButton onClick={this.handleSubmit} type="submit" label="Сохранить" primary={true} />
-              </div>  
-            </div>
-          </form>
+              </div>
+            </form>
           </div>
         </Dialog>
       </div>
     );
   }
 }
+
+EditItemButton.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.object),
+};
 
 const MapStateToProps = (state) => {
   return {

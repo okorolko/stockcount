@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
@@ -62,17 +62,20 @@ class DeleteItemButtom extends React.Component {
           open={this.state.open}
           contentStyle={{width: '30%'}}
         >
-        <IconButton
-          style={{ position: 'absolute', top: '1vh', right: '1vh' }}
-          tooltip="Закрыть"
-          onClick={this.handleRequestClose}
-        >
-          <Clear />
-        </IconButton>
+          <IconButton
+            style={{ position: 'absolute', top: '1vh', right: '1vh' }}
+            tooltip="Закрыть"
+            onClick={this.handleRequestClose}
+          >
+            <Clear />
+          </IconButton>
           <form onSubmit={this.handleSubmit}>
-            <div style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'center'}}>
-              <span> {`Точно удалить товар id ${this.state["_id"]} ?`}</span>
-              <div style={{padding: '20px 20px 0 20px', width: '60%', display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around'}}>
+            <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center' }}>
+              <span> {`Точно удалить товар id ${this.state["_id"]} ?`} </span>
+              <div
+                style={{ padding: '20px 20px 0 20px', width: '60%', display: 'flex',
+                  flexFlow: 'row wrap', justifyContent: 'space-around' }}
+              >
                 <RaisedButton type="submit" label="Да" primary={true} />
                 <RaisedButton onClick={this.handleRequestClose} label="Нет" primary={true} />
               </div>
@@ -83,6 +86,10 @@ class DeleteItemButtom extends React.Component {
     );
   }
 }
+
+DeleteItemButtom.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
 
 const MapStateToProps = (state) => {
   return {

@@ -67,7 +67,8 @@ class AddItem extends React.Component {
           <Clear />
         </IconButton>
         <div style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', paddingTop: '25px'}}>
-          <form onSubmit={this.handleSubmit}>
+          <span style={{fontSize: '20px'}}>Добавить категорию</span>
+          <form onSubmit={this.handleSubmit} style={{ display: 'flex', flexFlow: 'column', alignItems: 'center' }}>
             <div>
               <TextField
                 id="categoryName"

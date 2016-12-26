@@ -47,7 +47,7 @@ const Category = (props) => {
                 <Clear />
               </IconButton>
               <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', paddingTop: '25px' }}>
-                <form onSubmit={() => handleDelete(category)}>
+                <form onSubmit={e => handleDelete(e, category)}>
                   <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center' }}>
                     <span>Вы точно хотите удалить категорию?</span>
                     <span>Все товары будут помечены без категории</span>
@@ -65,8 +65,8 @@ const Category = (props) => {
               key={index}
               label={category.name}
               hoverColor="white"
-              labelStyle={{ paddingLeft: '0px', fontSize: '12px' }}
-              style={{ marginLeft: '0px', paddingLeft: '0px', paddingTop: '0px' }}
+              labelStyle={{ fontSize: '12px' }}
+              style={{ marginLeft: '-10px' }}
               onClick={() => handleCategorySelect(category.name)}
             />
           </div>
@@ -76,7 +76,7 @@ const Category = (props) => {
         label="Без названия"
         hoverColor="white"
         labelStyle={{ fontSize: '12px' }}
-        style={{ padding: '7px 0 0 24px' }}
+        style={{ margin: '7px 0 0 17px' }}
         onClick={() => handleCategorySelect('')}
       />
     </div>

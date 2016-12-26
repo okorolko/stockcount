@@ -5,6 +5,7 @@ import DeleteItemButtom from './DeleteItemButtom';
 
 const TableElem = (props) => {
   const { items } = props;
+  const center = { textAlign: 'center', width: '13%' };
   return (
     <Table>
       <TableHeader
@@ -12,27 +13,27 @@ const TableElem = (props) => {
         adjustForCheckbox={false}
       >
         <TableRow>
-          <TableHeaderColumn>ID</TableHeaderColumn>
-          <TableHeaderColumn>Название товара</TableHeaderColumn>
-          <TableHeaderColumn>Цена / Закуп</TableHeaderColumn>
-          <TableHeaderColumn>Цена</TableHeaderColumn>
-          <TableHeaderColumn style={{width: '30%'}}></TableHeaderColumn>
+          <TableHeaderColumn style={center}>ID</TableHeaderColumn>
+          <TableHeaderColumn style={{ textAlign: 'center', width: '20%' }}>Название товара</TableHeaderColumn>
+          <TableHeaderColumn style={center}>Цена / Закуп</TableHeaderColumn>
+          <TableHeaderColumn style={center}>Цена</TableHeaderColumn>
+          <TableHeaderColumn style={{ minWidth: '250px', textAlign: 'center' }} />
         </TableRow>
       </TableHeader>
-      <TableBody displayRowCheckbox={false} >
-        {items.map((item) => (
-            <TableRow key={item["_id"]} >
-              <TableRowColumn>{item["_id"]}</TableRowColumn>
-              <TableRowColumn>{item.name}</TableRowColumn>
-              <TableRowColumn>{item.buyPrice}</TableRowColumn>
-              <TableRowColumn >{item.sellPrice}</TableRowColumn>
-              <TableRowColumn style={{width: '30%'}}>
-                <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'flex-end'}}>
-                  <DeleteItemButtom item={item} />
-                  <EditItemButtom item={item} />
-                </div>
-              </TableRowColumn>
-            </TableRow>
+      <TableBody displayRowCheckbox={false}>
+        {items.map(item => (
+          <TableRow key={item["_id"]} >
+            <TableRowColumn style={center}>{item["_id"]}</TableRowColumn>
+            <TableRowColumn style={{ textAlign: 'center', width: '20%' }}>{item.name}</TableRowColumn>
+            <TableRowColumn style={center}>{item.buyPrice}</TableRowColumn>
+            <TableRowColumn style={center}>{item.sellPrice}</TableRowColumn>
+            <TableRowColumn style={{ minWidth: '250px', textAlign: 'center' }}>
+              <div style={{ width: '100%', display: 'flex', flexFlow: 'row wrap', justifyContent: 'center' }}>
+                <DeleteItemButtom item={item} />
+                <EditItemButtom item={item} />
+              </div>
+            </TableRowColumn>
+          </TableRow>
         ))}
       </TableBody>
     </Table>
