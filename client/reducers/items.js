@@ -5,7 +5,7 @@ export const items = (state = {}, action) => {
     case 'FETCH_ITEM_PENDING':
       return [];
     case 'FETCH_ITEM_ERROR':
-      return [action.err];
+      return [];
     default: return state;
   }
 };

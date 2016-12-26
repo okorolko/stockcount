@@ -20,7 +20,7 @@ export const editItem = (item) => {
   return function(dispatch) {
     dispatch(editItemPending());
 
-    //delete DOM elem from object to send post request
+    //remove DOM elem from object to send post request
     delete item.anchorEl;
 
     axios.post('/api/edititem', item)
