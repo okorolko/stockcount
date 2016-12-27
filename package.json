@@ -4,14 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=production webpack & NODE_ENV=production node server.js",
     "dev": "NODE_ENV=development webpack-dev-server | NODE_ENV=development node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.15.3",
-    "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "material-ui": "^0.16.5",

@@ -1,27 +1,28 @@
 var webpack = require('webpack');
 
 module.exports = {
-  entry: "./client/index.js",
+  entry: './client/index.js',
   output: {
     path: './',
-    filename: 'index.js'
+    filename: 'index.js',
   },
   devServer: {
     inline: true,
-    port: 3333,
-     proxy: {
-       "/": {
-         target: "http://localhost:7777",
-         secure: false,
-       },
+    port: 4700,
+    proxy: {
+      '/': {
+        target: 'http://localhost:5700',
+        secure: false,
+      },
     },
   },
-	 plugins: [
+  plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-      }
-    })
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      },
+    }),
+    new webpack.optimize.UglifyJsPlugin(),
   ],
   module: {
     loaders: [
@@ -40,3 +41,5 @@ module.exports = {
     ]
   }
 }
+
+
