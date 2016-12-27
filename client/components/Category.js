@@ -15,19 +15,14 @@ const Category = (props) => {
     openDeleteModal,
     closeDeleteModal } = props;
 
-  const customContentStyle = {
-    maxWidth: '35%',
-  };
-
   return (
     <div style={{ paddingTop: '5vh' }}>
       {categories.map((category, index) => {
         const id = category["_id"];
         return (
-          <div key={id}>
+          <div key={id} style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', alignItems: 'center' }}>
             <IconButton
               key={id}
-              style={{ position: 'relative', top: '1vh', right: '1vh', paddingRight: '0px' }}
               iconStyle={{ paddingRight: '0px' }}
               tooltip="удалить"
               onClick={() => openDeleteModal()}
@@ -36,7 +31,8 @@ const Category = (props) => {
             </IconButton>
             <Dialog
               modal={true}
-              contentStyle={customContentStyle}
+              contentStyle={{ maxWidth: '30%', boxShadow: '0' }}
+              overlayStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}
               open={open}
             >
               <IconButton
@@ -65,20 +61,28 @@ const Category = (props) => {
               key={index}
               label={category.name}
               hoverColor="white"
-              labelStyle={{ fontSize: '12px' }}
-              style={{ marginLeft: '-10px' }}
+              labelStyle={{ fontSize: '12px', paddingLeft: '0' }}
+              style={{ paddingLeft: '0', marginTop: '-5px' }}
               onClick={() => handleCategorySelect(category.name)}
             />
           </div>
         );
       })}
-      <FlatButton
-        label="Без названия"
-        hoverColor="white"
-        labelStyle={{ fontSize: '12px' }}
-        style={{ margin: '7px 0 0 17px' }}
-        onClick={() => handleCategorySelect('')}
-      />
+      <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', alignItems: 'center' }}>
+        <IconButton
+          iconStyle={{ paddingRight: '0px' }}
+          style={{ opacity: '0' }}
+        >
+          <Clear />
+        </IconButton>
+        <FlatButton
+          label="Без названия"
+          hoverColor="white"
+          labelStyle={{ fontSize: '12px', paddingLeft: '0' }}
+          style={{ paddingLeft: '0', marginTop: '-5px', marginLeft: '-2px' }}
+          onClick={() => handleCategorySelect('')}
+        />
+      </div>
     </div>
   );
 };
