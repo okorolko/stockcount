@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import AddItem from './AddItem';
 import AddCategory from './AddCategory';
@@ -30,13 +30,4 @@ const App = () => {
   );
 };
 
-// App.propTypes = {
-//   children: PropTypes.element.isRequired,
-// };
-const MapStateToProps = (state) => {
-  return {
-
-  }
-}
-
-export default connect(MapStateToProps)(App);
+export default connect()(App);
